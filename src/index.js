@@ -1,9 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Menu from './components/Menu';
+import App from './App';
+import { createStore } from 'redux'
+import { rootReducer } from './redux/rootReducer';
+import { Provider } from 'react-redux';
 
-import { data } from "./data.js";
+
+const container = document.querySelector('#root')
+const initialState = []
+const store = createStore(
+        rootReducer, 
+        initialState, 
+        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+
 ReactDOM.render(
-  <Menu recipes = {data} title = {'Delicious Recipes '}/>, 
-  document.getElementById('root')
-)
+    <Provider store= {store}>
+        <App/>
+    </Provider>,
+    container)
