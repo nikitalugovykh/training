@@ -1,17 +1,13 @@
-export function getTimeRemaining(endtime) {
+export function getTimeRemainingMS(endtime) {
     let t = Date.parse(endtime) - Date.parse(new Date());
-    let seconds = Math.floor((t / 1000) % 60);
-    let minutes = Math.floor((t / 1000 / 60) % 60);
-    let hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-    let days = Math.floor(t / (1000 * 60 * 60 * 24));
-// надо подумать 
-    const timer = setTimeout(function run() {
-        getTimeRemaining(t)
-        setTimeout(run,1000)
-    },1000)
+    return t
+}
 
-    if (t <= 0) {
-        clearTimeout(timer)
-    }
+export function getTimeForRender(time) {
+    let seconds = Math.floor((Number(time) / 1000) % 60);
+    let minutes = Math.floor((Number(time) / 1000 / 60) % 60);
+    let hours = Math.floor((Number(time) / (1000 * 60 * 60)) % 24);
+    let days = Math.floor(Number(time) / (1000 * 60 * 60 * 24));
+
     return `${days} дней, ${hours}:${minutes}:${seconds}`
 }

@@ -25,9 +25,9 @@ export function removeHistory() {
 
     }
 }
-export function updateTimer() {
+export function updateTimer(id) {
     return {
         type: UPDATE_TIMER,
-        
+        id
     }
 }

@@ -7,10 +7,9 @@ import { Provider } from 'react-redux';
 
 
 const container = document.querySelector('#root')
-const initialState = []
+// const initialState = []
 const store = createStore(
         rootReducer, 
-        initialState, 
         window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 

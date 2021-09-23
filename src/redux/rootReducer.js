@@ -7,8 +7,11 @@ function addReducer(state = [], action) {
             return [...state, action.data]
         case REMOVE_ITEM:
             return state.filter(item => item.id !== action.id)
-        // case UPDATE_TIMER:
-        //     return state
+        case UPDATE_TIMER:
+            return state.map(item => {
+                if(item.id !== action.id) return item   
+                return Object.assign({}, {item}, {remainingTime: item.remainingTime - 1000})
+            })
         default: 
             return state
     }

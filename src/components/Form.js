@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { v4 } from 'uuid';
 import { addItem } from '../redux/actionCreators';
-import { getTimeRemaining } from '../timer';
+import { getTimeRemainingMS } from '../timer';
 
 const Form = (props) => {
     
@@ -18,6 +18,7 @@ const Form = (props) => {
             todo: inputTodo.value,
             date: inputDate.value,
             status: inputStatus.value,
+            remainingTime: getTimeRemainingMS(`${inputDate.value}T12:00:00`), 
             id: v4()
         }
         props.addItemToState(data)
