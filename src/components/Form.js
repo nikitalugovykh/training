@@ -14,11 +14,12 @@ const Form = (props) => {
     }
     const submitHandler = ev => {
         ev.preventDefault()
-        const inputTodo = document.getElementById('inputTodo');
+        const inputTitle = document.getElementById('inputTitle');
+        const inputDescription = document.getElementById('inputDescription');
         const inputDate = document.getElementById('inputDate');
         const inputStatus = document.getElementById('inputStatus');
         
-        if (inputTodo.value === '') return
+        if (inputTitle.value === '') return
         if (getTimeRemainingMS(`${inputDate.value}T12:00:00`) < 0) {
             let format = 'year-month-day'
             inputDate.value = format
@@ -27,16 +28,18 @@ const Form = (props) => {
                         .replace(/day/, new Date().getDate())
         }
         const data = {
-            todo: inputTodo.value,
+            todo: inputTitle.value,
             date: inputDate.value,
+            descr: inputDescription.value,
             status: [inputStatus.value, getBgColor(inputStatus.value)],
             remainingTime: getTimeRemainingMS(`${inputDate.value}T12:00:00`), 
             id: v4()
         }
 
         props.addItemToState(data)
-        inputTodo.value = ''
+        inputTitle.value = ''
         inputDate.value = ''
+        inputDescription.value = ''
         inputStatus.value = 'Второстепенно'
 
     }
@@ -47,18 +50,27 @@ const Form = (props) => {
             className='mt-2'
             onSubmit= {submitHandler}
             >
+            <label htmlfor="inputTitle" className="form-label"></label>
             <input 
                 type="text" 
                 className="form-control" 
-                id='inputTodo'
-                placeholder="Введите текст" 
-                aria-label="Recipient's username" 
+                id='inputTitle'
+                placeholder="Введите заголовок" 
+                aria-label=" Title for todo item" 
                 aria-describedby="button-addon2"
                 >
             </input>
+            <label htmlfor="inputDescription" className="form-label mt-2">Введите вашу заметку</label>
+            <textarea 
+                className="form-control" 
+                id="inputDescription" 
+                rows="3"
+                placeholder="Введите вашу заметку"
+            >
+            </textarea>
             <div className="form-row row mt-2">
                 <div className="form-group col-md-6">
-                    <label htmlFor="inputCity">Конечный срок выполнения</label>
+                    <label htmlFor="inputDate">Конечный срок выполнения</label>
                     <input
                         id='inputDate' 
                         type="date" 
