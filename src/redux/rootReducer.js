@@ -10,7 +10,7 @@ function addReducer(state = [], action) {
         case UPDATE_TIMER:
             return state.map(item => {
                 if(item.id !== action.id) return item   
-                return Object.assign({}, {item}, {remainingTime: item.remainingTime - 1000})
+                return {...item, remainingTime: item.remainingTime - 1000}
             })
         default: 
             return state

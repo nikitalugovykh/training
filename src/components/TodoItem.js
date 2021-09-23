@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { addItemHistory, removeItem, updateTimer } from '../redux/actionCreators';
 import { getTimeForRender } from '../timer';
 
+
 class TodoItem extends React.Component {
     componentDidMount() {
         this.countDownTimer = setInterval(() => {
@@ -13,19 +14,35 @@ class TodoItem extends React.Component {
         clearInterval(this.countDownTimer)
     }
     render(){
+        const styleItem = {
+            display:'flex', 
+            justifyContent:'space-between', 
+            alignItems:'center',
+            backgroundColor: `${this.props.data.status[1]}`
+        }
+
+        this.timeForRender = this.props.timer.filter(item => item.id === this.props.data.id)
+
         return (
-            <li className="list-group-item mt-3 border-top" style = {{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+            <li 
+                className="list-group-item mt-3 border-top" 
+                style = {styleItem}
+            >
                 <span>{this.props.data.todo}</span>
-                {console.log(this.props.timer)}
-                <span>{this.props.data.date ? getTimeForRender(this.props.timer) : '---'}</span>
+                <span>{this.props.data.date 
+                            ? getTimeForRender(this.timeForRender[0].remainingTime) 
+                            : '---' }
+                </span>
+                <span>{this.props.data.status[0]}</span>
                 <button 
                     type="button" 
-                    className="btn btn-danger"
+                    className="btn btn-secondary"
                     onClick = {()=> {
                         this.props.addToHistory(this.props.data)
                         this.props.remove(this.props.data.id)
                     }}
-                    >Сделано
+                >
+                Сделано
                 </button>
             </li>
         )
@@ -41,9 +58,8 @@ function mapDispatchtoProps(dispatch) {
 }
 
 function mapStatetoProps(state) {
-// тут массив с {} надо как-то по id выцеплять 
     return  {
-        timer: state.todoItems.remainingTime
+        timer: state.todoItems
     }
 }
 

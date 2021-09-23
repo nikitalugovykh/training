@@ -5,7 +5,13 @@ import { addItem } from '../redux/actionCreators';
 import { getTimeRemainingMS } from '../timer';
 
 const Form = (props) => {
-    
+    const getBgColor = (status) => {
+        return status === 'Второстепенно' 
+                            ? 'var(--bs-cyan)' 
+                            : status === 'Важно'
+                                ? 'var(--bs-yellow)'
+                                : 'var(--bs-red)' 
+    }
     const submitHandler = ev => {
         ev.preventDefault()
         const inputTodo = document.getElementById('inputTodo');
@@ -13,14 +19,21 @@ const Form = (props) => {
         const inputStatus = document.getElementById('inputStatus');
         
         if (inputTodo.value === '') return
-
+        if (getTimeRemainingMS(`${inputDate.value}T12:00:00`) < 0) {
+            let format = 'year-month-day'
+            inputDate.value = format
+                        .replace(/year/, new Date().getFullYear())
+                        .replace(/month/, new Date().getMonth() + 1)
+                        .replace(/day/, new Date().getDate())
+        }
         const data = {
             todo: inputTodo.value,
             date: inputDate.value,
-            status: inputStatus.value,
+            status: [inputStatus.value, getBgColor(inputStatus.value)],
             remainingTime: getTimeRemainingMS(`${inputDate.value}T12:00:00`), 
             id: v4()
         }
+
         props.addItemToState(data)
         inputTodo.value = ''
         inputDate.value = ''
